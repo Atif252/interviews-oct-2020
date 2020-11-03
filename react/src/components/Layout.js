@@ -11,32 +11,37 @@ export default class Layout extends React.Component {
             content: '',
             value: ''
         };
-
-        /**
-         * @TODO Implement it
-         */
     }
 
-    handleChange(event) {
-        // @TODO Implement it
+    handleChange = (event) => {
+        this.setState({
+            value: event.target.value
+        });
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
 
         let calculation = new Calculation(this.state.value);
 
-        let result = null/* @TODO Implement it */;
+        let result = calculation.calculate();
 
         let content = 'Wrong input!';
 
         if (result !== false) {
             // @TODO Implement it
+            let pattern = /^(\d+\.?\d*)([+\-*/])(\d+\.?\d*)/;
+            const matches = pattern.exec(this.state.value);
+            let [, a, sign, b] = matches;
+            content = `${a} ${sign} ${b} = ${result}`;
         }
-
         /**
          * @TODO Implement it
          */
+        
+        this.setState({
+            content
+        });
     }
 
     render() {
@@ -50,12 +55,12 @@ export default class Layout extends React.Component {
                     <div className="row">
                         <form className="col-md-6 col-md-offset-3 text-center" onSubmit={this.handleSubmit}>
                             <input type="text" className="form-control col-md-9" placeholder="expression..."
-                                   /* @TODO Implement it *//>
+                                value={this.state.value} onChange={this.handleChange}/>
                             <input className="btn btn-success" type="submit" value="Submit"/>
                         </form>
                     </div>
 
-                    <Paragraph /* @TODO Implement it *//>
+                    <Paragraph content={this.state.content} />
                 </div>
             </div>
         )
