@@ -23,7 +23,12 @@ class BookWithReviews {
  * @returns {Array} - an array of BookWithReviews objects
  */
 export function parseBooksData(books, reviews) {
-  return [];  // TODO: Implement
+  const bookWithReviews = books.map(book => {
+    let bookReviews = reviews.filter(review => review.bookId === book.id)
+    book.reviews = bookReviews
+    return book
+  })
+  return bookWithReviews;  // TODO: Implement
 }
 
 /**
@@ -43,4 +48,15 @@ export function parseBooksData(books, reviews) {
  */
 export function displayBooks(parentNode, books) {
   // TODO: Implement
+  parentNode.innerHTML =
+  books.map(book => `
+  <ol>
+    <li>
+    <span>${book.title}</span>
+    ${book.reviews.length > 0 ? `<ul>
+      ${book.reviews.map(review => `<li>${review.content} by ${review.author}</li>`)}
+    </ul>` : undefined}
+  </li>
+</ol>` 
+)  
 }
